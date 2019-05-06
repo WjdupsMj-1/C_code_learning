@@ -1,33 +1,56 @@
 #include<stdio.h>
-void chline (char ch, int * i, int * j);
+#define ROWS 10
+#define COLS 30
+void chline (char ch, int i, int j, char class[ROWS][COLS]);
 
 int main(void)
 {
-	char choice = 0;
-	int i[10] = {};
-	int j[10] = {};
-	printf("please enter the code to chooce the line (A/B):\n");
-	scanf("%c",&choice);
+	char ch = 0;
+	int x;
+	int i = 0;
+	int j = 0;
+	char _class[ROWS][COLS] = {};
+	char (*p)[COLS];
+	for(i = 0; i < ROWS; i++){
+		for(j = 0; j < COLS; j++)
+			_class[i][j] = '*';
+	}
+	printf("\nplease enter the code that you want to print:\n");
+	scanf("%c", &ch);
+	printf("please enter i col you want to start:\n");
+	scanf("%d", &i);
+	printf("please enter j col you want to end:\n");
+	scanf("%d", &j);
+	for (x = 0; x < COLS; x++)
+	printf("%4d",x);
+	printf("\n");
 	
-	int * _i = i;
-	int * _j = j;
+	chline(ch, i - 1, j - 1, _class);
 	
-	chline(ch, *_i, *_j);
+	return 0;
 }
 
-void chline(char ch, int * i, int * j)
+void chline(char ch, int i, int j, char class[ROWS][COLS])
 {
-	int k;
-	char chooce = ch;
-	if(chooce == 'A'){
-	printf("please enter numbers for line A: (10 elements)\n");
-	for (k = 0; k < i; k++)
-	scanf("%d", i);
+	int a,b;
+	char (*q)[COLS];
+	
+	q = class;
+	printf("The original formate is as below:\n\n");
+	for (a = 0; a < ROWS; a++){
+		for (b = 0; b < COLS; b++)
+			printf("%4c", q[a][b]);
+			printf("\n");
 	}
-	else if(chooce == 'B'){
-	printf("please enter numbers for line B: (10 elements)\n");
-	for (k = 0; k < j; k++)
-	scanf("%d",j);
-	}
-
+	for (a = 0; a < ROWS; a++)
+		for (b = i; b <= j; b++)
+			q[a][b] = ch;
+	
+	printf("\n\nThe changed formate is as below:\n\n");
+	for(a = 0; a < ROWS; a++){
+		for (b = 0; b < COLS; b++)
+			printf("%4c", q[a][b]);
+			printf("\n");
+		}
+return;
 }
