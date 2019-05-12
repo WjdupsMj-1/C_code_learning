@@ -5,6 +5,8 @@
 #define TAX_OVER 0.25
 float salary(int, float);
 float TAXI(float, float);
+float BASI(void);
+void BLOCK(void);
 
 int main(void)
 {
@@ -12,62 +14,27 @@ int main(void)
 	float sal;
 	float tax;
 	float sal_tax;
-	int i = 0;
-	char ch;
-	float BASIC = 0;
+	float BASIC;
+	int i;
 
-	while(1){	
-	for (i = 0; i < 60; i++)
-		printf("*");
-	printf("\nEnter the number corresponding to the desire pay rate or action:\n");
-	printf("1)$8.75/hr      2)$9.33/hr\n"
-		   "3)$10.00/hr     4)$11.20/hr\n"
-		   "5)quit\n");
-	for (i = 0; i < 60; i++)
-		printf("*");
-	printf("\n");
-	scanf("%c", &ch);
-	if (ch > '0' && ch < '6')
-		break;
-	else
-		printf("Enter 1~5!\n");
-	}
 	while(1){
-		switch(ch){
-			case'1': BASIC = 8.75;
-					break;
-			case'2': BASIC = 9.33;
-					break;
-			case'3': BASIC = 10.00;
-					break;
-			case'4': BASIC = 11.20;
-					break;
-			case'q':
-			case'5':break;
-		}
-		if(ch == 'q' || ch == '5')
-			goto end;
-	printf("Enter Hours:\n");
-	scanf("%d", &hours);
-	sal = salary(hours, BASIC);
-	tax = TAXI(sal, BASIC);
-	sal_tax = sal - tax;
+		BLOCK();
+		BASIC = 0;
+		BASIC = BASI();
+		if (BASIC == 1)
+			break;
+		printf("Enter Hours:\n");
+		scanf("%d", &hours);
+		sal = salary(hours, BASIC);
+		tax = TAXI(sal, BASIC);
+		sal_tax = sal - tax;
 	
-	printf("Salary is: $%.2f\n", sal);
-	printf("Tax is: $%.2f\n", tax);
-	printf("Salary after tax is: $%.2f\n", sal_tax);
-	for (i = 0; i < 60; i++)
-		printf("*");
-	printf("\nEnter the number corresponding to the desire pay rate or action:\n");
-	printf("1)$8.75/hr      2)$9.33/hr\n"
-		   "3)$10.00/hr     4)$11.20/hr\n"
-		   "5)quit\n");
-	for (i = 0; i < 60; i++)
-		printf("*");
-	printf("\n");
+		printf("Salary is: $%.2f\n", sal);
+		printf("Tax is: $%.2f\n", tax);
+		printf("Salary after tax is: $%.2f\n", sal_tax);
 	}
-
-end:return 0;
+	printf("Bye!\n");
+	return 0;
 }
 
 float salary(int hours, float BASIC)
@@ -92,4 +59,50 @@ float TAXI(float salary, float BASIC)
 		tax = 300 * TAX_300 + 150 * TAX_450 + (salary - 450) * TAX_OVER;
 
 	return tax;
+}
+
+float BASI(void)
+{
+	char ch = 0;
+	float BASI = 0;
+	
+	while(1){
+	ch = getchar();
+		if(ch > '0' && ch < '7'){
+			switch(ch){
+			case'1': BASI = 8.75;
+					break;
+			case'2': BASI = 9.33;
+					break;
+			case'3': BASI = 10.00;
+					break;
+			case'4': BASI = 11.20;
+					break;
+			case'5': BASI = 1;
+					break;
+			case'6': BASI = 2;
+					break;
+			}
+		break;
+		}
+	else
+		printf("Enter 1 ~ 6\n");
+	while(getchar() != '\n')
+	continue;
+	}
+	return BASI;
+}
+
+void BLOCK(void)
+{
+	int i;
+	for (i = 0; i < 60; i++)
+		printf("*");
+	printf("\nEnter the number corresponding to the desire pay rate or action:\n");
+	printf("1)$8.75/hr      2)$9.33/hr\n"
+		   "3)$10.00/hr     4)$11.20/hr\n"
+		   "5)quit          6)manu\n");
+	for (i = 0; i < 60; i++)
+		printf("*");
+	printf("\nEnter Choice:\n");
 }
