@@ -1,53 +1,125 @@
 #include<stdio.h>
 #include<string.h>
-#include<ctype.h>
-#define LIM 10
-#define SIZE 80
+#include<stdlib.h>
+#define MAX 80
+#define AMO 10
 char MANU(void);
-int SCANS(char (*ptr)[SIZE]);
-//char *function(char *ptr[LIM], char choice, int index);
+char function(int num, char ch, char *str[num]);
+int words(char *string);
 
 int main(void)
 {
-    char string[LIM][SIZE];
-    char (*ptstr)[SIZE];
-    char choice;
-    int i, indexs;
-
-	ptstr = string;
-    indexs = SCANS(ptstr);
-//    choice = MANU();
-    
-    for(i = 0; i < indexs; i++)
-    {
-	    puts(string[i]);
-		printf("\n\n\n");
+	char ch;
+	char strings[AMO][MAX];
+	char *strpo[AMO];
+	int num = 0;
+	printf("Enter strings less than 10: \n");
+	while(num < 10 && fgets(strings[num], MAX, stdin) != 0)
+		num++;
+	printf("You just put in below strings:\n\n");
+	for(int i = 0; i < num; i++){
+		puts(strings[i]);
+		strpo[i] = strings[i];
 	}
+	ch = MANU();
+	if(ch == 'q')
+		goto quit;
+	while((ch = function(num, ch, strpo)) != 'q')
+		continue;
+quit:	printf("Bye!\n");
 
-
-//    printf("q to quit.\n");
-//    }while(getchar() != 'q');
-//    printf("Bye!\n");
-    
-    return 0;
+	return 0;
 }
 
-int SCANS(char (*ptr)[SIZE])
+char MANU(void)
 {
-	int lim = 0;
-	int size = 0;
-	
-	printf("Enter strings.\n");
-	while(lim < LIM && ptr[lim][size] != EOF){
-		size = 0;
-		while(size < SIZE && ptr[lim][size] != '\n'){
-			ptr[lim][size] = getchar();
-			size++;
-		}
-		lim++;
-	}
-	ptr[lim][size] = EOF;
-	
-	return lim;
+    char ch; 
+    int index;
 
+    for(index = 0; index < 60 ;index++)
+        putchar('*');
+    printf("\nPrint the strings refer\n");
+    printf("a.to the string;     b.to ASIC;\n"
+           "c.to length;         d.to first word length;\n"
+           "q.quit\n");
+    for(index = 0; index < 60; index++)
+        putchar('*');
+    while(getchar() != '\n')
+        continue;
+    printf("\nenter your choice:");
+    while((ch = getchar()) != 'a' && 
+			ch != 'b' && ch != 'c' &&
+			ch != 'd' && ch != 'q')
+        printf("\n enter correctly.");
+//	while(function(ch) != 'q')
+//		continue;
+    return ch; 
+}
+
+char function(int num, char ch, char *str[num])
+{
+	int index, i, j;
+	char *strp[num];
+	char *temp;
+	char cho;
+
+	for(i = 0; i < num; i++)
+		strp[i] = str[i];
+	switch(ch)
+	{
+		case'a':for(i = 0; i < num; i++)
+					strp[i] = str[i];
+			break;
+		case'b':for(i = 0; i < num; i++){
+					for(j = i; j < num; j++)
+						if(strcmp(strp[i], strp[j])){
+							temp = strp[i];
+							strp[i] = strp[j];
+							strp[j] = temp;
+						}	
+				}
+			break;
+		case'c':for(i = 0; i < num; i++){
+					for(j = i; j < num; j++)
+						if(strlen(strp[i]) > strlen(strp[j])){
+							temp = strp[i];
+							strp[i] = strp[j];
+							strp[j] = temp;
+						}	
+				}
+			break;
+		case'd':for(i = 0; i < num; i++){
+					for(j = i; j < num; j++)
+						if(words(strp[i]) > words(strp[j])){
+							temp = strp[i];
+							strp[i] = strp[j];
+							strp[j] = temp;
+						}	
+				}
+			break;
+	}
+	for(i = 0; i < num; i++)
+		puts(strp[i]);
+	while(getchar() != '\n')
+		continue;
+	printf("Enter next choice: ");
+    while((cho = getchar()) != 'a' && 
+			cho != 'b' && cho != 'c' &&
+			cho != 'd' && cho != 'q')
+        printf("\n enter correctly.");
+
+	return cho;
+}
+
+int words(char *string)
+{
+	int count;
+	int i = 0;
+
+	while(string[i] == ' ')
+		i++;
+	while(string[i++] != ' ' && string[i] != EOF)
+		count++;	
+
+	return count;
 }
